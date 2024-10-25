@@ -80,7 +80,8 @@
             <groupId>org.aspectj</groupId>
             <artifactId>aspectjweaver</artifactId>
         </dependency>
-
+        <!--Swagger-->
+        <!--knife4j是为javaMVC框架集成的Swagger生成Api文档的增强解决方案-->
         <dependency>
             <groupId>com.github.xiaoymin</groupId>
             <artifactId>knife4j-spring-boot-starter</artifactId>
