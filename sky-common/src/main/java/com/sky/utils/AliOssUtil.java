@@ -7,7 +7,12 @@ import com.aliyun.oss.OSSException;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.web.multipart.MultipartFile;
+
 import java.io.ByteArrayInputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.UUID;
 
 @Data
 @AllArgsConstructor
@@ -21,19 +26,22 @@ public class AliOssUtil {
 
     /**
      * 文件上传
-     *
-     * @param bytes
-     * @param objectName
+     * @param file
      * @return
      */
-    public String upload(byte[] bytes, String objectName) {
+    public String upload(MultipartFile file) {
 
         // 创建OSSClient实例。
         OSS ossClient = new OSSClientBuilder().build(endpoint, accessKeyId, accessKeySecret);
 
+        // 避免文件覆盖
+        String originalFilename = file.getOriginalFilename();
+        String fileName = UUID.randomUUID().toString() + originalFilename.substring(originalFilename.lastIndexOf("."));
+
         try {
             // 创建PutObject请求。
-            ossClient.putObject(bucketName, objectName, new ByteArrayInputStream(bytes));
+            //ossClient.putObject(bucketName, objectName, new ByteArrayInputStream(bytes));
+            ossClient.putObject(bucketName, fileName, file.getInputStream());
         } catch (OSSException oe) {
             System.out.println("Caught an OSSException, which means your request made it to OSS, "
                     + "but was rejected with an error response for some reason.");
@@ -46,7 +54,9 @@ public class AliOssUtil {
                     + "a serious internal problem while trying to communicate with OSS, "
                     + "such as not being able to access the network.");
             System.out.println("Error Message:" + ce.getMessage());
-        } finally {
+        } catch (IOException e) {
+            log.error("上传文件失败", e);
+        }finally {
             if (ossClient != null) {
                 ossClient.shutdown();
             }
@@ -59,7 +69,7 @@ public class AliOssUtil {
                 .append(".")
                 .append(endpoint)
                 .append("/")
-                .append(objectName);
+                .append(fileName);
 
         log.info("文件上传到:{}", stringBuilder.toString());
 
