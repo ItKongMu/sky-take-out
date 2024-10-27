@@ -84,7 +84,7 @@ public class CategoryController {
      */
     @PostMapping("/status/{status}")
     @ApiOperation("启用禁用分类")
-    public Result<String> startOrStop(@PathVariable("status") Integer status, Long id){
+    public Result<String> startOrStop(@PathVariable("status") Integer status,@RequestParam Long id){
         categoryService.startOrStop(status,id);
         return Result.success();
     }
@@ -96,7 +96,7 @@ public class CategoryController {
      */
     @GetMapping("/list")
     @ApiOperation("根据类型查询分类")
-    public Result<List<Category>> list(Integer type){
+    public Result<List<Category>> list(@RequestParam Integer type){
         List<Category> list = categoryService.list(type);
         return Result.success(list);
     }
