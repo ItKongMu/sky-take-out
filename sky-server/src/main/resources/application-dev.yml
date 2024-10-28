@@ -8,6 +8,6 @@ sky:
     password: 280054
   alioss:
     endpoint: oss-cn-hangzhou.aliyuncs.com
-    access-key-id: LTAI5tRWMNuDBwRsjBTcmybv
-    access-key-secret: 6aQ9jz9Lob8K29xb6NOPqngA95XTBk
+    #access-key-id: LTAI5tRWMNuDBwRsjBTcmybv
+    #access-key-secret: 6aQ9jz9Lob8K29xb6NOPqngA95XTBk
     bucket-name: sky-itkongmu
