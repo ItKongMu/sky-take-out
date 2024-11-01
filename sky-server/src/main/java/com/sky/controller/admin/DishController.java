@@ -66,4 +66,12 @@ public class DishController {
         return Result.success();
     }
 
+    @PostMapping("/status/{status}")
+    @ApiOperation(value = "更新菜品状态")
+    public Result staterOrStop(@PathVariable Integer status, @RequestParam Long id) {
+        log.info("更新菜品状态: {}, {}", id, status);
+        dishService.staterOrStop(id, status);
+        return Result.success();
+    }
+
 }
