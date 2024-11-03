@@ -56,19 +56,19 @@ public class HttpClientUtil {
             response = httpClient.execute(httpGet);
 
             //判断响应状态
-            if(response.getStatusLine().getStatusCode() == 200){
-                result = EntityUtils.toString(response.getEntity(),"UTF-8");
+            if (response.getStatusLine().getStatusCode() == 200) {
+                result = EntityUtils.toString(response.getEntity(), "UTF-8");
             }
-        }catch (Exception e){
-            e.printStackTrace();
-        }finally {
-            try {
-                response.close();
-                httpClient.close();
-            } catch (IOException e) {
+            } catch (Exception e) {
                 e.printStackTrace();
+            } finally {
+                try {
+                    response.close();
+                    httpClient.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
             }
-        }
 
         return result;
     }
