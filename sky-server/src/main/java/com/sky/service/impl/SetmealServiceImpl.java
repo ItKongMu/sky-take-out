@@ -16,6 +16,7 @@ import com.sky.mapper.SetmealDishMapper;
 import com.sky.mapper.SetmealMapper;
 import com.sky.result.PageResult;
 import com.sky.service.SetmealService;
+import com.sky.vo.DishItemVO;
 import com.sky.vo.SetmealVO;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -64,6 +65,7 @@ public class SetmealServiceImpl implements SetmealService {
     }
 
     @Override
+    @Transactional
     public void deleteBatch(List<Long> ids) {
         ids.forEach(id -> {
             Setmeal setmeal = setmealMapper.getById(id);
@@ -85,6 +87,7 @@ public class SetmealServiceImpl implements SetmealService {
      * @return
      */
     @Override
+    @Transactional
     public SetmealVO getByIdWithDish(Long id) {
         // 查询套餐信息
         Setmeal setmeal = setmealMapper.getById(id);
@@ -99,6 +102,7 @@ public class SetmealServiceImpl implements SetmealService {
     }
 
     @Override
+    @Transactional
     public void update(SetmealDTO setmealDTO) {
         Setmeal setmeal = new Setmeal();
         BeanUtils.copyProperties(setmealDTO, setmeal);
@@ -116,7 +120,13 @@ public class SetmealServiceImpl implements SetmealService {
         setmealDishMapper.insertBatch(setmealDishes);
     }
 
+    /**
+     * 启用或停用套餐
+     * @param status
+     * @param id
+     */
     @Override
+    @Transactional
     public void startOrStop(Integer status, Long id) {
         if(status==StatusConstant.ENABLE){
             List<Dish> dishes = dishMapper.getBySetmealId(id);
@@ -135,5 +145,27 @@ public class SetmealServiceImpl implements SetmealService {
 
         setmealMapper.update(setmeal);
     }
+
+    /**
+     * 条件查询
+     * @param setmeal
+     * @return
+     */
+    @Override
+    public List<Setmeal> list(Setmeal setmeal) {
+        List<Setmeal> list = setmealMapper.list(setmeal);
+        return list;
+    }
+
+    /**
+     * 根据id查询菜品选项
+     * @param id
+     * @return
+     */
+    @Override
+    public List<DishItemVO> getDishItemById(Long id) {
+        return setmealMapper.getDishItemBySetmealId(id);
+    }
+
 
 }
