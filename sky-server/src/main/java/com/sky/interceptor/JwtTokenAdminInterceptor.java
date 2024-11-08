@@ -1,7 +1,9 @@
 package com.sky.interceptor;
 
 import com.sky.constant.JwtClaimsConstant;
+import com.sky.constant.MessageConstant;
 import com.sky.context.BaseContext;
+import com.sky.exception.LoginFailedException;
 import com.sky.properties.JwtProperties;
 import com.sky.utils.JwtUtil;
 import io.jsonwebtoken.Claims;
@@ -41,6 +43,9 @@ public class JwtTokenAdminInterceptor implements HandlerInterceptor {
 
         //1、从请求头中获取令牌
         String token = request.getHeader(jwtProperties.getAdminTokenName());
+        if (token == null) {
+            throw new LoginFailedException(MessageConstant.USER_NOT_LOGIN);
+        }
 
         //2、校验令牌
         try {
