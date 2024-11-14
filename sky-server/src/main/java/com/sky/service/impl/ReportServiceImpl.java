@@ -42,11 +42,37 @@ public class ReportServiceImpl implements ReportService {
             Map map=new HashMap();
             map.put("beginTime",beginTime);
             map.put("endTime",endTime);
-            map.put("statue", Orders.COMPLETED);
-            Double turnover = orderMapper.sunByMap(map);
+            map.put("status", Orders.COMPLETED);
+            Double turnover = orderMapper.sumByMap(map);
             turnover = turnover == null ? 0.0 : turnover;
             turnoverList.add(turnover);
         }
+
+        return TurnoverReportVO
+                .builder()
+                .dateList(StringUtils.join(dateList, ","))
+                .turnoverList(StringUtils.join(turnoverList, ","))
+                .build();
+    }
+
+    @Override
+    public TurnoverReportVO getTurnoverStatisticsDemo(LocalDate begin, LocalDate end) {
+        LocalDateTime beginTime = LocalDateTime.of(begin, LocalTime.MIN);
+        LocalDateTime endTime = LocalDateTime.of(end, LocalTime.MAX);
+
+        List<LocalDate> dateList = new ArrayList<>();
+        dateList.add(begin);
+        while (!begin.equals(end)){
+            begin = begin.plusDays(1);
+            dateList.add(begin);
+        }
+
+        Map map=new HashMap();
+        map.put("beginTime",beginTime);
+        map.put("endTime",endTime);
+        map.put("status", Orders.COMPLETED);
+        List<Double> turnoverList = orderMapper.sumByStatus(map);
+
 
         return TurnoverReportVO
                 .builder()

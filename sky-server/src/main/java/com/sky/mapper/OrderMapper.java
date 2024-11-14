@@ -70,5 +70,7 @@ public interface OrderMapper {
      * @param map
      * @return
      */
-    Double sunByMap(Map map);
+    Double sumByMap(Map map);
+
+    List<Double> sumByStatus(Map map);
 }

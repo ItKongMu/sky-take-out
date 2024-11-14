@@ -12,4 +12,6 @@ public interface ReportService {
      */
     TurnoverReportVO getTurnoverStatistics(LocalDate begin, LocalDate end);
 
+    TurnoverReportVO getTurnoverStatisticsDemo(LocalDate begin, LocalDate end);
+
 }
