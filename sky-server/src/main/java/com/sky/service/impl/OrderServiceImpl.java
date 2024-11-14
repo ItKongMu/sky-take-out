@@ -474,14 +474,14 @@ public class OrderServiceImpl implements OrderService {
             throw new OrderBusinessException(MessageConstant.ORDER_STATUS_ERROR);
         }
         //支付状态
-        if(ordersDB.getPayStatus().equals(Orders.PAID)){
+        /*if(ordersDB.getPayStatus().equals(Orders.PAID)){
             //用户已支付，需要退款
             weChatPayUtil.refund(
                     ordersDB.getNumber(),
                     ordersDB.getNumber(),
                     new BigDecimal(0.01),
                     new BigDecimal(0.01));
-        }
+        }*/
         // 拒单需要退款，根据订单id更新订单状态、拒单原因、取消时间
         Orders orders = new Orders();
         orders.setId(ordersDB.getId());
@@ -498,15 +498,15 @@ public class OrderServiceImpl implements OrderService {
         Orders ordersDB = orderMapper.getById(ordersCancelDTO.getId());
 
         //支付状态
-        Integer payStatus = ordersDB.getPayStatus();
-        if (payStatus == 1) {
+        /*Integer payStatus = ordersDB.getPayStatus();
+        if (payStatus.equals(Orders.PAID)) {
             //用户已支付，需要退款
             weChatPayUtil.refund(
                     ordersDB.getNumber(),
                     ordersDB.getNumber(),
                     new BigDecimal(0.01),
                     new BigDecimal(0.01));
-        }
+        }*/
 
         // 管理端取消订单需要退款，根据订单id更新订单状态、取消原因、取消时间
         Orders orders = new Orders();
