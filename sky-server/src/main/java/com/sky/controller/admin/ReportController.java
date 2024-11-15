@@ -34,8 +34,8 @@ public class ReportController {
             @DateTimeFormat(pattern = "yyyy-MM-dd")
             LocalDate end) {
         log.info("营业额数据统计:{},{}", begin, end);
-        TurnoverReportVO turnoverReportVO = reportService.getTurnoverStatistics(begin, end);
-        //TurnoverReportVO turnoverReportVO = reportService.getTurnoverStatisticsDemo(begin, end);
+        //TurnoverReportVO turnoverReportVO = reportService.getTurnoverStatistics(begin, end);
+        TurnoverReportVO turnoverReportVO = reportService.getTurnoverStatisticsDemo(begin, end);
         return Result.success(turnoverReportVO);
     }
 
