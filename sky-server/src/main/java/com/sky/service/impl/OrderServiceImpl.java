@@ -314,6 +314,9 @@ public class OrderServiceImpl implements OrderService {
         BeanUtils.copyProperties(orders, orderVO);
         orderVO.setOrderDetailList(details);
 
+        AddressBook addressBook = addressBookMapper.getById(orderVO.getAddressBookId());
+        orderVO.setAddress(addressBook.getProvinceName() + addressBook.getCityName() + addressBook.getDistrictName() + addressBook.getDetail());
+
         return orderVO;
     }
 
@@ -397,6 +400,10 @@ public class OrderServiceImpl implements OrderService {
         Page<Orders> page = orderMapper.pageQuery(ordersPageQueryDTO);
         //部分订单状态，需要额外返回订单菜品信息，将Orders转化OrderVO
         List<OrderVO> orderVOList = getOrderVOList(page);
+        for (OrderVO orderVO : orderVOList) {
+            AddressBook addressBook = addressBookMapper.getById(orderVO.getAddressBookId());
+            orderVO.setAddress(addressBook.getProvinceName() + addressBook.getCityName() + addressBook.getDistrictName() + addressBook.getDetail());
+        }
         return new PageResult(page.getTotal(), orderVOList);
     }
 
